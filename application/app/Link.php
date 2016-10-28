@@ -12,6 +12,6 @@ class Link extends Model
      * @var array
      */
     protected $fillable = [
-        'link', 'status_id', 'password', 'invited_by'
+        'link', 'status_id', 'user_id', 'invited_by'
     ];
 }

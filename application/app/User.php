@@ -28,6 +28,25 @@ class User extends Authenticatable
      * relation to links
      */
     public function links() {
-        $this->hasMany('App\Link');
+        return $this->hasMany('App\Link');
+    }
+
+    public function withInvitedBy($id) {
+        $user = User::leftJoin('users as u', 'u.id', '=', 'users.invited_by')
+            ->leftJoin('links', 'users.id', '=', 'links.user_id')
+            ->where(['users.id' => $id, 'links.status_id' => 0])->orWhere(['users.id' => $id])
+            ->orderBy('links.created_at', 'desc')->limit(1)
+            ->get
+            (['users.id',
+                'users.name',
+                'users.email',
+                'u.name as invited', 'links.link']);
+        return $user;
+    }
+
+    public function gainFollowers() {
+        $user = \DB::table('users')->where(['invited_by' => $this->id])
+            ->get(['name']);
+        return $user;
     }
 }
