@@ -23,4 +23,4 @@
 9) Run in app container `chown www-data:www-data -R storage/framework/` for debug error trace
 
 ## utilizing
-1) Run in app container php artisan migrate
+1) Run in app container `php artisan migrate`
